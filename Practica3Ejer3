@@ -1,0 +1,130 @@
+programa ejer3 
+procesos
+  proceso juntarFlor (ES flor:numero) 
+  comenzar 
+    tomarFlor 
+    flor:=flor+1 
+  fin 
+  proceso maximo(E flor:numero; ES max:numero;E id:numero; ES idMax:numero) 
+  comenzar 
+    si ( flor> max) 
+      max:=flor 
+      idMax:=id 
+  fin 
+  proceso mensajes (E calle:numero ; E avenida:numero)
+  comenzar
+    EnviarMensaje(1,R1)
+    EnviarMensaje(2,R2)
+    EnviarMensaje(3,R3)
+    EnviarMensaje(4,R4)
+    
+    EnviarMensaje(calle,R1)
+    EnviarMensaje(calle,R2)
+    EnviarMensaje(calle,R3)
+    EnviarMensaje(calle,R4)
+    
+    EnviarMensaje(avenida,R1)
+    EnviarMensaje(avenida,R2)
+    EnviarMensaje(avenida,R3)
+    EnviarMensaje(avenida,R4)
+  fin
+ 
+
+areas 
+  areaRJ: AreaP(1,1,1,1)   
+  areaR1:AreaP(2,1,2,1) 
+  areaR2: AreaP(3,1,3,1) 
+  areaR3: AreaP(4,1,4,1) 
+  areaR4: AreaP(5,1,5,1) 
+  areaTotal: AreaPC(2,2,10,10) 
+
+robots 
+  robot recolector  
+  variables 
+    avenida:numero 
+    calle:numero 
+    id:numero 
+    ca:numero 
+    av:numero 
+    flor:numero 
+  comenzar 
+
+    ca:=PosCa 
+    av:=PosAv 
+    flor:=0 
+    RecibirMensaje(id, RJ) 
+    RecibirMensaje(avenida,RJ) 
+    RecibirMensaje(calle,RJ)         
+    BloquearEsquina(avenida,calle)  
+    Pos(avenida,calle) 
+    mientras HayFlorEnLaEsquina 
+      juntarFlor(flor) 
+      Pos(av,ca) 
+      LiberarEsquina(avenida,calle) 
+      BloquearEsquina(avenida,calle) 
+      Pos(avenida,calle) 
+    Pos(av,ca) 
+    LiberarEsquina(avenida,calle) 
+    EnviarMensaje (id,RJ) 
+    EnviarMensaje(flor,RJ) 
+  fin
+  robot jefe 
+  variables 
+    avenida:numero 
+    calle:numero 
+    max:numero 
+    idMax:numero 
+    id:numero 
+    flor:numero 
+  comenzar 
+    Random (avenida, 2,10) 
+    Random (calle, 2,10) 
+
+    mensajes(calle,avenida)
+    max:=-1 
+    idMax:=0  
+     
+
+    repetir 4 
+      RecibirMensaje(id,*) 
+      si id=1 
+        RecibirMensaje (flor,R1) 
+      sino 
+        si id=2 
+          RecibirMensaje(flor,R2) 
+        sino 
+          si id=3 
+            RecibirMensaje (flor, R3) 
+          sino 
+            si id=4 
+              RecibirMensaje(flor,R4) 
+      maximo(flor,max,id,idMax) 
+    Informar( idMax) 
+    Informar(max) 
+  fin 
+variables 
+
+  R1:recolector 
+  R2:recolector 
+  R3:recolector 
+  R4:recolector 
+  RJ:jefe 
+
+comenzar 
+
+  AsignarArea(R1, areaTotal) 
+  AsignarArea(R1,areaR1) 
+  AsignarArea(R2,areaTotal) 
+  AsignarArea(R2,areaR2) 
+  AsignarArea(R3, areaTotal) 
+  AsignarArea(R3,areaR3) 
+  AsignarArea(R4,areaTotal) 
+  AsignarArea(R4,areaR4) 
+  AsignarArea(RJ,areaRJ) 
+  Iniciar (R1,2,1) 
+  Iniciar (R2,3,1) 
+  Iniciar (R3,4,1) 
+  Iniciar(R4,5,1) 
+  Iniciar (RJ,1,1) 
+
+fin 

@@ -1,0 +1,119 @@
+
+
+programa Adicional1
+procesos
+  proceso juntarF
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso mensajes
+  comenzar
+    EnviarMensaje(1,R1)
+    EnviarMensaje(1,R2)
+    EnviarMensaje(2,R3)
+    EnviarMensaje(2,R4)
+  fin
+areas
+  areaRJ:AreaP(1,1,1,1)
+  area14:AreaPC(14,2,24,12)
+  area2:AreaPC(2,2,12,12)
+  areaR1:AreaP(2,1,2,1)
+  areaR2:AreaP(14,1,14,1)
+  areaR3:AreaP(3,1,3,1)
+  areaR4:AreaP(15,1,15,1)
+  area13:AreaP(13,13,13,13)
+  
+ 
+
+
+
+robots 
+  robot florero
+  variables
+    f,id,ca,av,avenida,calle:numero
+  comenzar
+    RecibirMensaje(id,RJ)
+    ca:=PosCa
+    av:=PosAv
+    repetir 3
+      Random(calle,2,12)
+      Random (avenida, 2, 12)
+      BloquearEsquina(avenida,calle)
+      Pos(avenida,calle)
+      juntarF
+      Pos(av,ca)
+      LiberarEsquina(avenida,calle)
+    EnviarMensaje(id,RJ)
+  fin 
+  robot papelero
+  variables
+    p,id,av,ca,avenida,calle:numero
+  comenzar
+    RecibirMensaje(id,RJ)
+    av:=PosAv
+    ca:=PosCa
+    
+    repetir 5
+      Random(calle, 2,12)
+      Random(avenida, 14,24)
+      BloquearEsquina(13,13)
+      Pos(13,13)
+      tomarPapel
+      BloquearEsquina (avenida,calle)
+      Pos(avenida,calle)
+      LiberarEsquina(13,13)
+      depositarPapel
+      Pos(av,ca)
+      LiberarEsquina(avenida,calle)
+    EnviarMensaje(id,RJ) 
+  fin
+
+  robot jefe
+  variables
+    id:numero
+    equipo1, equipo2:numero
+   
+  comenzar
+    equipo1:=0
+    equipo2:=0
+    mensajes
+   
+    repetir 4
+      RecibirMensaje(id,*)
+    si id = 1
+      Informar(2)
+    sino
+      Informar(1)
+
+  fin
+
+
+variables 
+  R1:florero
+  R2:papelero
+  R3:florero
+  R4:papelero
+  RJ:jefe
+  
+comenzar 
+
+  AsignarArea(RJ,areaRJ)
+  AsignarArea(R1,areaR1)
+  AsignarArea(R1,area2)
+  AsignarArea(R2,areaR2)
+  AsignarArea(R2,area14)
+  AsignarArea(R2,area13)
+  AsignarArea(R3,areaR3)
+  AsignarArea(R3,area2)
+  AsignarArea(R4,areaR4)
+  AsignarArea(R4,area14)
+  AsignarArea(R4,area13)
+ 
+  Iniciar(RJ,1,1)
+  Iniciar(R1,2,1)
+  Iniciar(R2,14,1)
+  Iniciar(R3,3,1)
+  Iniciar(R4,15,1)
+ 
+fin
