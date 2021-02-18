@@ -1,0 +1,108 @@
+programa ejer4
+procesos
+  proceso juntarFlor  
+  comenzar 
+    tomarFlor 
+  fin 
+
+  proceso mensajes
+  comenzar
+    EnviarMensaje(1,R1)
+    EnviarMensaje(2,R2)
+    EnviarMensaje(3,R3)
+    EnviarMensaje(4,R4)
+    
+  fin
+ 
+
+areas 
+  areaRJ: AreaP(1,1,1,1)   
+  areaR1:AreaP(9,9,9,9) 
+  areaR2: AreaP(9,10,9,10) 
+  areaR3: AreaP(9,11,9,11) 
+  areaR4: AreaP(9,12,9,12) 
+  area11: AreaC(11,11,11,11)
+  area10:AreaPC(10,10,10,10) 
+
+robots 
+  robot recolector  
+  variables 
+    avenida:numero 
+    calle:numero 
+    id:numero 
+    ca:numero 
+    av:numero 
+  comenzar 
+
+    ca:=PosCa 
+    av:=PosAv 
+ 
+    RecibirMensaje(id, RJ)        
+    BloquearEsquina(10,10)  
+    Pos(10,10) 
+    mientras HayFlorEnLaEsquina 
+      juntarFlor
+      Pos(av,ca) 
+      LiberarEsquina(10,10) 
+      BloquearEsquina(11,11) 
+      Pos(11,11) 
+      depositarFlor
+      Pos(av,ca)
+      LiberarEsquina(11,11)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+    Pos(av,ca)
+    LiberarEsquina(10,10) 
+    EnviarMensaje (id,RJ) 
+  fin
+  robot jefe 
+  variables 
+    avenida:numero 
+    calle:numero 
+    id:numero 
+    flor:numero 
+  comenzar 
+    mensajes
+
+    repetir 4 
+      RecibirMensaje(id,*)
+      
+    Informar(id) 
+    
+    Pos(11,11)
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      
+      
+  fin 
+variables 
+
+  R1:recolector 
+  R2:recolector 
+  R3:recolector 
+  R4:recolector 
+  RJ:jefe 
+
+comenzar 
+
+  AsignarArea(R1,area10) 
+  AsignarArea(R1,areaR1) 
+  AsignarArea(R1,area11)
+  AsignarArea(R2,area10) 
+  AsignarArea(R2,areaR2) 
+  AsignarArea(R2,area11)
+  AsignarArea(R3, area10) 
+  AsignarArea(R3,areaR3) 
+  AsignarArea(R3,area11)
+  AsignarArea(R4,area10) 
+  AsignarArea(R4,areaR4) 
+  AsignarArea(R4,area11)
+  AsignarArea(RJ,areaRJ)
+  AsignarArea(RJ,area11) 
+  Iniciar (RJ,1,1) 
+  Iniciar (R1,9,9) 
+  Iniciar (R2,9,10) 
+  Iniciar(R3,9,11) 
+  Iniciar (R4,9,12) 
+
+fin 

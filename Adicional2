@@ -1,0 +1,121 @@
+
+
+programa Adicional2
+procesos
+  proceso juntarF
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso juntarP
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso mensajes
+  comenzar
+    EnviarMensaje(1,R1)
+    EnviarMensaje(1,R2)
+    EnviarMensaje(2,R3)
+    EnviarMensaje(2,R4)
+  fin
+areas
+  areaRJ:AreaP(1,1,1,1)
+  areaR1:AreaP(2,1,2,1)
+  areaR2:AreaP(3,1,3,1)
+  areaR3:AreaP(4,1,4,1)
+  areaR4:AreaP(5,1,5,1)
+  area1:AreaPC(5,5,10,15)
+  area2:AreaPC(25,5,30,15)
+  
+robots 
+  robot florero
+  variables
+    f,id,ca,av,avenida,calle:numero
+  comenzar
+    RecibirMensaje(id,RJ)
+    si id =1
+      BloquearEsquina(5,5)
+      Pos(5,5) 
+    sino
+      BloquearEsquina(25,5)
+      Pos(25,5)
+    si HayFlorEnLaEsquina
+      juntarF
+    mover
+    LiberarEsquina(PosAv ,PosCa -1)
+    repetir 9
+      si HayFlorEnLaEsquina
+        juntarF
+      mover
+    EnviarMensaje(id,RJ)
+  fin 
+  
+  robot papelero
+  variables
+    p,id,av,ca,avenida,calle:numero
+  comenzar
+    RecibirMensaje(id,RJ)
+    si id=1
+      BloquearEsquina(5,5)
+      Pos(5,5)
+    sino
+      BloquearEsquina(25,5)
+      Pos(25,5)
+    derecha
+    si HayPapelEnLaEsquina
+      juntarP
+    mover
+    LiberarEsquina(PosAv -1,PosCa)
+    repetir 4
+      si HayPapelEnLaEsquina
+        juntarP
+      mover
+    EnviarMensaje(id,RJ) 
+  fin
+
+  robot jefe
+  variables
+    id:numero
+    equipo1, equipo2:numero
+   
+  comenzar
+    mensajes
+   
+    repetir 4
+      RecibirMensaje(id,*)
+    si id = 1
+      Informar(2)
+    sino
+      Informar(1)
+
+  fin
+
+
+variables 
+  R1:florero
+  R2:papelero
+  R3:florero
+  R4:papelero
+  RJ:jefe
+  
+comenzar 
+
+  AsignarArea(RJ,areaRJ)
+  AsignarArea(R1,areaR1)
+  AsignarArea(R1,area1)
+  AsignarArea(R2,areaR2)
+  AsignarArea(R2,area1)
+  AsignarArea(R3,areaR3)
+  AsignarArea(R3,area2)
+  AsignarArea(R4,areaR4)
+  AsignarArea(R4,area2)
+
+ 
+  Iniciar(RJ,1,1)
+  Iniciar(R1,2,1)
+  Iniciar(R2,3,1)
+  Iniciar(R3,4,1)
+  Iniciar(R4,5,1)
+ 
+fin

@@ -1,0 +1,104 @@
+
+programa Pratica3ejer1
+procesos
+  proceso juntarF(ES f:numero)
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarFlor
+      f:=f +1
+      
+  fin
+  proceso juntarP(ES p:numero)
+  comenzar
+    si HayPapelEnLaEsquina
+      tomarPapel
+      p:=p +1
+  fin
+
+areas
+
+  areaF:AreaPC(1,1,5,10)
+  areaP:AreaPC(6,1,10,9)
+  R1:AreaP(6,10,6,10)
+  R2:AreaP(7,10,7,10)
+  R3:AreaP(8,10,8,10)
+  R4:AreaP(9,10,9,10)
+  area:AreaC(10,10,10,10)
+ 
+
+
+
+robots 
+  robot florero
+  variables
+    ca,av,f, avenida,calle:numero
+  comenzar
+    f:=0
+    avenida:=PosAv
+    calle:=PosCa
+    repetir 15
+      Random(ca, 1,10)
+      Random(av,1,5)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      juntarF(f)
+      Pos(avenida,calle)
+      LiberarEsquina(av,ca)
+    repetir f
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarFlor
+      Pos(avenida,calle)
+      LiberarEsquina(10,10)
+  fin
+  robot papelero
+  variables
+    ca,av,p, avenida, calle:numero
+  comenzar
+    avenida:=PosAv
+    calle:=PosCa
+    p:=0
+    repetir 10
+      Random(ca, 1,9)
+      Random(av,6,10)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      juntarP(p)
+      Pos(avenida,calle)
+      LiberarEsquina(av,ca)
+    repetir p
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarPapel
+      Pos(avenida,calle)
+      LiberarEsquina(10,10)
+   
+  fin
+
+
+variables 
+  R1:florero
+  R2:florero
+  R3:papelero
+  R4:papelero
+  
+comenzar 
+  AsignarArea(R1,R1)
+  AsignarArea(R2,R2)
+  AsignarArea(R3,R3)
+  AsignarArea(R4,R4)
+  AsignarArea(R1,areaF)
+  AsignarArea(R2,areaF)
+  AsignarArea(R3,areaP)
+  AsignarArea(R4,areaP)
+  AsignarArea(R1,area)
+  AsignarArea(R2,area)
+  AsignarArea(R3,area)
+  AsignarArea(R4,area)
+
+  Iniciar(R1,6,10)
+  Iniciar(R2,7,10)
+  Iniciar(R3,8,10)
+  Iniciar(R4,9,10)
+ 
+fin
